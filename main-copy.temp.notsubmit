@@ -1,0 +1,74 @@
+package main
+
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
+
+func main() {
+	server := gin.Default()
+	server.GET("/ping", func(ctx *gin.Context) {
+		ctx.JSON(http.StatusOK, gin.H{
+			"message": "pong",
+		})
+	})
+
+	server.Use() // you can declare a middleware here before handle the request link below
+
+	/*
+	 group all item below and not to declare prefix product when use
+	 example here we do not need declare api in the request link
+	*/
+	apiRouter := server.Group("api")
+	apiRouter.Use() // you can declare a middleware here before handle the request link below
+
+	// users
+	userRouter := apiRouter.Group("users")
+	userRouter.POST("/sign-up", func(ctx *gin.Context) {
+		ctx.JSON(http.StatusOK, gin.H{
+			"message": "signUp",
+		})
+	})
+	userRouter.POST("/login", func(ctx *gin.Context) {
+		ctx.JSON(http.StatusOK, gin.H{
+			"message": "login",
+		})
+	})
+
+	// products
+	productRouter := apiRouter.Group("products")
+	// productRouter.GET("/products?Limit=25&page=1") // Get list pagination
+	productRouter.GET("", func(ctx *gin.Context) { // Get list pagination
+		ctx.JSON(http.StatusOK, gin.H{
+			"message": "get list",
+		})
+	})
+
+	productRouter.GET("/:id", func(ctx *gin.Context) { // Get list pagination
+		id := ctx.Param("id")
+		ctx.JSON(http.StatusOK, gin.H{
+			"message": "get by id: " + id,
+		})
+	})
+
+	productRouter.POST("", func(ctx *gin.Context) { // Create new data
+		ctx.JSON(http.StatusOK, gin.H{
+			"message": "signUp",
+		})
+	})
+
+	productRouter.PUT("/:id", func(ctx *gin.Context) { // Update
+		ctx.JSON(http.StatusOK, gin.H{
+			"message": "signUp",
+		})
+	})
+
+	productRouter.DELETE("/:id", func(ctx *gin.Context) { // Delete
+		ctx.JSON(http.StatusOK, gin.H{
+			"message": "signUp",
+		})
+	})
+
+	server.Run(":3000") // listen and serve on 0.0.0.0:8080
+}
