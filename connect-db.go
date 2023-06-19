@@ -1,7 +1,7 @@
 package main
 
 import (
-	model "FinalProject/models"
+	"FinalProject/models"
 	"fmt"
 	"log"
 	"os"
@@ -24,7 +24,7 @@ func connectDb() *gorm.DB {
 	}
 
 	// migrate data into database (that is neccessary to connect database)
-	db.AutoMigrate(&model.User{}, &model.Product{})
+	db.AutoMigrate(&models.User{}, &models.Product{})
 
 	return db
 }

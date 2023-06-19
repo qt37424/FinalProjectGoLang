@@ -1,7 +1,8 @@
 package main
 
 import (
-	router "FinalProject/routes"
+	router "FinalProject/routers"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,5 +16,5 @@ func main() {
 	router := router.Router{Server: server, DB: db}
 	router.Init()
 
-	server.Run(":3000") // listen and serve on 0.0.0.0:3000
+	server.Run(os.Getenv("PORT")) // listen and serve on 0.0.0.0:3000
 }
