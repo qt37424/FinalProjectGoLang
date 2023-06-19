@@ -18,4 +18,5 @@ type User struct {
 	IdentifyID      string // Maybe that's neccessary when renting car
 	CarRent         []*Car `gorm:"-"` // List id car that user've rent
 	Products        []Product
+	Role            string // Maybe we need 3 role: admin, customer, owner
 }

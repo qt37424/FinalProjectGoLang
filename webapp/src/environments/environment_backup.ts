@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  API_SERVER: "http://localhost:3000/api/" // api server on golang.
+  API_SERVER: ""
 };
 
 /*

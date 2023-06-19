@@ -2,5 +2,9 @@
 /api/tmp/
 /api/FinalProject.exe
 /api/main-copy.temp.notsubmit
+/webapp/package.json
+/webapp/package-lock.json
+/webapp/src/environments/environment.ts
 TODOList.txt
 GuideLine.docx
+/temp/

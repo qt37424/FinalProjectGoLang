@@ -12,6 +12,7 @@ import (
 type (
 	RegisterRequest struct {
 		Username string `json:"username" binding:"required"`
+		Role     string `json:"role" binding:"required"` // if necessary convert role from string to enum
 		Password string `json:"password" binding:"required"`
 	}
 	RegisterResponse struct {

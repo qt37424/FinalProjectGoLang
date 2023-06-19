@@ -9,6 +9,7 @@ import { catchError, tap } from "rxjs/operators";
 
 // CUSTOM IMPORTS
 import { User } from "./user.model";
+import { environment } from "src/environments/environment";
 
 export interface AuthResponseData {
   email: string;
@@ -20,10 +21,19 @@ export interface AuthResponseData {
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
+
+  //#region Variables
+  private REST_API_SERVER = environment.API_SERVER; // REST API endpoint //? How can I push it in env?
+  private USER_ROUTER = "users";
+  private SIGNUP_COMMAND = "sign-up";
+  //#endregion Variables
+
   //observable instance of user
   public user = new BehaviorSubject<User>(null);
   //token timer
   private tokenExpirationTimer: any;
+
+  private holder: User = null;
 
   //make instance of HttpClient and Router
   constructor(private http: HttpClient, private router: Router) {}
@@ -38,8 +48,6 @@ export class AuthService {
       _token: string;
       _tokenExpirationDate: string;
     } = JSON.parse(localStorage.getItem("userData"));
-    //console.log(userData);
-    //if user data is empty, return
     if (!userData) {
       return;
     }
@@ -47,6 +55,7 @@ export class AuthService {
     //instantiate a user with extracted data
     const loadedUser = new User(
       userData.email,
+      null,
       userData.id,
       userData.role,
       userData._token,
@@ -71,13 +80,17 @@ export class AuthService {
 
   //Method that sends entered email and password to backend. Returns observable of type <AuthResponseData> which can be subscribed to in auth.component.ts
   login(email: string, password: string) {
+    let path = environment.API_SERVER + "users/login";
+    console.log(path);
+    console.log(email);
+    console.log(password);
     return (
       this.http
-        .post<AuthResponseData>("http://199.195.116.225:8080/CARS/login", {
-          email: email,
-          password: password,
+        .post<AuthResponseData>(path, {
+          "username": email,
+          "password": password,
           //we can add the following line if API requires a boolean to return token:
-          //returnSecureToken: true
+          // returnSecureToken: true
         })
         //now lets handle response data, it can be error or legit data if authentication was successful
         .pipe(
@@ -90,12 +103,13 @@ export class AuthService {
               //console.log(resData.expiresIn);
               this.handleAuthentication(
                 resData.email,
-                resData.id,
+                password,
                 resData.role,
                 resData.token,
                 resData.expiresIn
               );
             }
+            console.log(resData);
           })
         )
     );
@@ -104,11 +118,15 @@ export class AuthService {
   //Method which handles login response data from backend, and saves "session" data into local storage.
   private handleAuthentication(
     email: string,
-    userId: string,
+    password: string,
     userRole: string,
     token: string,
     expiresIn: string
   ) {
+
+    // Temp Declaration
+    let id = "0";
+
     //we deal with milliseconds here. Make sure to turn it into seconds by * 1000
     //TEMPORARY SOLUTION - can't read date from backend response data
     let newD: Date = new Date(7200000);
@@ -117,7 +135,7 @@ export class AuthService {
     let expirationDate = new Date(new Date().getTime() + newD.getTime());
     //console.log("new user date is " + expirationDate);
     //instantiate a user from backend reply
-    const user = new User(email, userId, userRole, token, expirationDate);
+    const user = new User(id ,email, password, userRole, token, expirationDate);
     //push it to observable declared before consturctor
     // console.log(user);
     this.user.next(user);
@@ -181,5 +199,37 @@ export class AuthService {
         break;
     }
     return throwError(errorMsg);
+  }
+
+  public signUp(email: string, password: string) {
+    return (
+      this.http
+        .post<AuthResponseData>(this.REST_API_SERVER + this.USER_ROUTER + this.SIGNUP_COMMAND , {
+          email: email,
+          role: "User",
+          password: password,
+          //we can add the following line if API requires a boolean to return token:
+          //returnSecureToken: true
+        })
+        //now lets handle response data, it can be error or legit data if authentication was successful
+        .pipe(
+          //check if we received response with an error
+          catchError(this.handleError),
+          //observe for response data, and if recieved, pass it to handleAuthentication
+          tap((resData) => {
+            // console.log(resData);
+            if (resData.email === email) {
+              //console.log(resData.expiresIn);
+              this.handleAuthentication(
+                resData.email,
+                password,
+                resData.role,
+                resData.token,
+                resData.expiresIn
+              );
+            }
+          })
+        )
+    );
   }
 }

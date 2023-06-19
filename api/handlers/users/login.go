@@ -41,7 +41,13 @@ func (h *UserHandler) Login() gin.HandlerFunc {
 				ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
 				return
 			} else {
-				ctx.JSON(http.StatusOK, gin.H{"token": token})
+				ctx.JSON(
+					http.StatusOK,
+					gin.H{
+						"token": token,
+						"user":  user,
+					},
+				) // Ch? này dang tr? token c?n x? lí tr? v? theo auth.service.ts
 				return
 			}
 		}

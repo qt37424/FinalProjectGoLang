@@ -45,11 +45,12 @@ export class AuthComponent {
         /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
       //test user input
-      let serchfind = regexp.test(email);
+      let searchfind = regexp.test(email);
 
-      if (serchfind === true) {
+      if (searchfind === true || email == "admin") {
         this.isLoading = true;
         authObservable = this.authService.login(email, password);
+        console.log(authObservable);
 
         authObservable.subscribe((responseData) => {
           // console.log(responseData);
@@ -60,8 +61,8 @@ export class AuthComponent {
             this.errorMessage = true;
             this.isLoading = false;
           } else if (responseData.role === "admin") {
-            this.router.navigate(["/admin"]);
-          } else if (responseData.role === "regular") {
+            this.router.navigate(["/dog-application"]);
+          } else {
             this.router.navigate(["/volunteer"]);
           }
         });
