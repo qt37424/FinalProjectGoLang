@@ -6,8 +6,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (*ProductHandler) GetAll() gin.HandlerFunc {
+func (*UserHandler) GetAll() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, gin.H{"message": "get list"})
+		ctx.JSON(http.StatusOK, gin.H{"message": "get one user"})
 	}
 }

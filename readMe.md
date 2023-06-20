@@ -49,3 +49,5 @@ table Profile {
 - fk trong database = Foreign Key
 
 - Mỗi handler nên cần có 1 file handler cho từng repo riêng không thể tạo 1 file chung do từng loại repo sẽ có 1 cấu trúc dữ liệu khác nhau nên mặc dù file giống nhau nhưng cấu trúc dữ liệu trả về là khác nhau
+
+- Khi tạo object để mapping json từ request lên server thì nếu đã tạo field của struct với dạng data gì thì ở dạng data đó đã có validation cho việc mapping nên dường như không cần phải validation gì nhiều cho vấn đề đó và ông front-end cần đảm bảo tuân theo quy tắc đó khi design hệ thống
