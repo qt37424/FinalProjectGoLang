@@ -1,6 +1,7 @@
 package routers
 
 import (
+	"FinalProject/handlers/products"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -8,9 +9,9 @@ import (
 
 func (r *Router) AddProductRouter(apiRouter *gin.RouterGroup) {
 	productRouter := apiRouter.Group("products")
-	productRouter.GET("", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, gin.H{"message": "get list"})
-	})
+	handler := products.ProductHandler{Db: r.DB}
+
+	productRouter.GET("", handler.GetAll())
 
 	productRouter.GET("/:id", func(ctx *gin.Context) {
 		id := ctx.Param("id")

@@ -47,3 +47,5 @@ table Profile {
 ```
 
 - fk trong database = Foreign Key
+
+- Mỗi handler nên cần có 1 file handler cho từng repo riêng không thể tạo 1 file chung do từng loại repo sẽ có 1 cấu trúc dữ liệu khác nhau nên mặc dù file giống nhau nhưng cấu trúc dữ liệu trả về là khác nhau
