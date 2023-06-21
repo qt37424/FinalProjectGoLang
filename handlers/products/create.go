@@ -2,20 +2,24 @@ package products
 
 import (
 	"FinalProject/models"
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-type CreateBody struct {
-	Name  string `json:"name" binding:"required"`
-	Price uint   `json:"price" binding:"required,min=100"`
-}
+type (
+	createBody struct {
+		Name  string `json:"name" binding:"required"`
+		Price uint   `json:"price" binding:"required,min=100"`
+	}
+	createRes struct {
+		InsertedId uint `json:"insertId"`
+	}
+)
 
 func (h *ProductHandler) Create() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		body := &CreateBody{}
+		body := &createBody{}
 		if err := ctx.ShouldBindJSON(body); err != nil { // here we also have a method call MustBindJSON
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
@@ -31,6 +35,6 @@ func (h *ProductHandler) Create() gin.HandlerFunc {
 			ctx.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 			return
 		}
-		ctx.JSON(http.StatusOK, gin.H{"message": fmt.Sprintf("Data have been created with ID %v", product.ID)})
+		ctx.JSON(http.StatusOK, &createRes{InsertedId: product.ID})
 	}
 }

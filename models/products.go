@@ -7,4 +7,5 @@ type Product struct {
 	Name   string
 	Price  uint
 	UserID uint
+	User   User
 }
