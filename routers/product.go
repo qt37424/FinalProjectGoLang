@@ -8,6 +8,7 @@ import (
 
 func (r *Router) AddProductRouter(apiRouter *gin.RouterGroup) {
 	productRouter := apiRouter.Group("products")
+	// productRouter.Use(middlewareCheckAuthen)
 	handler := handlers.ProductHandler{Db: r.DB}
 
 	productRouter.GET("", handler.GetList())

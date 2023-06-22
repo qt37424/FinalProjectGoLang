@@ -1,26 +1,16 @@
 package routers
 
 import (
-	"FinalProject/models"
-	"net/http"
+	handlers "FinalProject/handlers/users"
 
 	"github.com/gin-gonic/gin"
 )
 
 func (r *Router) AddUserRouter(apiRouter *gin.RouterGroup) {
 	userRouter := apiRouter.Group("users")
+	handler := handlers.UserHandler{Db: r.DB}
 
-	userRouter.GET("/", func(ctx *gin.Context) {
-		users := &[]models.User{}
-		r.DB.Find(users)
-		ctx.JSON(http.StatusOK, gin.H{"data": users})
-	})
-
-	userRouter.POST("/sign-up", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, gin.H{"message": "signUp"})
-	})
-
-	userRouter.POST("/login", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, gin.H{"message": "login"})
-	})
+	userRouter.POST("/sign-up", handler.Register())
+	userRouter.POST("/login", handler.Login())
+	userRouter.GET("/", handler.GetInfo())
 }

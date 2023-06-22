@@ -1,4 +1,4 @@
-package products
+package users
 
 import "gorm.io/gorm"
 
