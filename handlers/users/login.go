@@ -12,11 +12,14 @@ import (
 
 type (
 	LoginRequest struct {
-		Username string `json:"username,omitempty" binding:"required"`
+		Username string `json:"username" binding:"required"`
 		Password string `json:"password" binding:"required"`
 	}
 	LoginResponse struct {
-		InsertedId uint `json:"insertId"`
+		IdToken uint `json:"insertId"`
+	}
+	Login struct {
+		Username string `uri:"username,omitempty"`
 	}
 	UnsignedResponse struct {
 		Message interface{} `json:"message"`
@@ -29,23 +32,21 @@ type (
 
 func (h *UserHandler) Login() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		type Login struct {
-			Username string `json:"username,omitempty"`
-		}
 
-		loginParams := Login{}
+		loginParams := LoginRequest{}
 		ctx.ShouldBindJSON(&loginParams)
 		user := models.User{}
-		h.Db.Find(&user, loginParams.Username)
+		h.Db.Where("username = ?", loginParams.Username).Find(&user)
 
-		// if loginParams.Username == "mike" || loginParams.Username == "rama" {
-		if check := utils.CheckPasswordHash(user.Password, "abc"); check == nil {
+		if check := utils.CheckPasswordHash(user.Password, loginParams.Password); check == nil {
 			token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 				"user": loginParams.Username,
 				"nbf":  time.Date(2018, 01, 01, 12, 0, 0, 0, time.UTC).Unix(),
 			})
 
-			tokenStr, err := token.SignedString([]byte("supersaucysecret"))
+			// create a complete, signed JWT
+			randStr := utils.RandomString(10)
+			tokenStr, err := token.SignedString([]byte(randStr))
 			if err != nil {
 				ctx.JSON(http.StatusInternalServerError, UnsignedResponse{
 					Message: err.Error(),
@@ -61,7 +62,7 @@ func (h *UserHandler) Login() gin.HandlerFunc {
 		}
 
 		ctx.JSON(http.StatusBadRequest, UnsignedResponse{
-			Message: loginParams,
+			Message: user,
 		})
 	}
 }
