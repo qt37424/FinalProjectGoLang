@@ -62,7 +62,7 @@ func (h *UserHandler) Login() gin.HandlerFunc {
 		}
 
 		ctx.JSON(http.StatusBadRequest, UnsignedResponse{
-			Message: user,
+			Message: "wrong username or password",
 		})
 	}
 }
