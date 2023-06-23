@@ -13,7 +13,7 @@ type (
 		Username string `json:"username" binding:"required"`
 		Password string `json:"password" binding:"required"`
 	}
-	RegisterRespond struct {
+	RegisterResponse struct {
 		InsertedId uint `json:"insertId"`
 	}
 )
@@ -35,6 +35,6 @@ func (h *UserHandler) Register() gin.HandlerFunc {
 			ctx.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 			return
 		}
-		ctx.JSON(http.StatusOK, &RegisterRespond{InsertedId: user.ID})
+		ctx.JSON(http.StatusOK, &RegisterResponse{InsertedId: user.ID})
 	}
 }
