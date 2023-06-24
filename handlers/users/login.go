@@ -4,6 +4,7 @@ import (
 	"FinalProject/models"
 	"FinalProject/utils"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -40,13 +41,14 @@ func (h *UserHandler) Login() gin.HandlerFunc {
 
 		if check := utils.CheckPasswordHash(user.Password, loginParams.Password); check == nil {
 			token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-				"user": loginParams.Username,
-				"nbf":  time.Date(2018, 01, 01, 12, 0, 0, 0, time.UTC).Unix(),
+				"userId":     user.ID,
+				"authorized": true,
+				"nbf":        time.Date(2018, 01, 01, 12, 0, 0, 0, time.UTC).Unix(),
 			})
 
 			// create a complete, signed JWT
-			randStr := utils.RandomString(10)
-			tokenStr, err := token.SignedString([]byte(randStr))
+			// randStr := utils.RandomString(10)
+			tokenStr, err := token.SignedString([]byte(os.Getenv("SECRET_JWT")))
 			if err != nil {
 				ctx.JSON(http.StatusInternalServerError, UnsignedResponse{
 					Message: err.Error(),

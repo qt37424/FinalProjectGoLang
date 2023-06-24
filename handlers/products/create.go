@@ -4,6 +4,8 @@ import (
 	"FinalProject/models"
 	"net/http"
 
+	"FinalProject/utils"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,6 +21,12 @@ type (
 
 func (h *ProductHandler) Create() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
+		creater, err := utils.ExtractUsernameFromToken(ctx.Request)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
 		body := &createBody{}
 		if err := ctx.ShouldBindJSON(body); err != nil { // here we also have a method call MustBindJSON
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -27,11 +35,11 @@ func (h *ProductHandler) Create() gin.HandlerFunc {
 		product := &models.Product{
 			Name:   body.Name,
 			Price:  body.Price,
-			UserID: 1, // hardcode to study when do project re-config
+			UserID: creater,
 		}
 		result := h.Db.Create(product)
 		if result.Error != nil {
-			// Lỗi này từ phía DB nên sẽ không catch được
+			// This error cause from DB so server cannot catch it
 			ctx.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 			return
 		}

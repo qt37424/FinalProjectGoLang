@@ -11,7 +11,7 @@ type (
 	getListRes struct {
 		Data []getListProductRes `json:"data"`
 	}
-	getListProductRes struct {
+	getListProductRes struct { // I think we should pass the field for token id when sending data
 		ID    uint   `json:"id"`
 		Name  string `json:"name"`
 		Price uint   `json:"price"`
