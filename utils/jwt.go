@@ -54,3 +54,11 @@ func ExtractToken(ctx *gin.Context) string {
 	// }
 	return bearerToken
 }
+
+func CheckPermission(idCurrent uint, idProduct uint) bool {
+	isPermission := false
+	if idCurrent == idProduct {
+		isPermission = true
+	}
+	return isPermission
+}
