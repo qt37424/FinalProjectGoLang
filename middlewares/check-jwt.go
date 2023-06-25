@@ -1,7 +1,6 @@
 package middlewares
 
 import (
-	"FinalProject/models"
 	"FinalProject/utils"
 	"encoding/json"
 	"fmt"
@@ -26,15 +25,16 @@ func CheckjwtToken() gin.HandlerFunc {
 		}
 		claims, ok := token.Claims.(jwt.MapClaims)
 		if ok {
-			jsonCurrentUser, err := json.Marshal(claims["user"])
+			jsonCurrentUser, err := json.Marshal(claims["userId"])
 			if err != nil {
 				fmt.Printf("[ERROR] Get current user error: %+v", err)
 			}
-			currentUser := models.User{}
+			var currentUser uint
 			if err := json.Unmarshal(jsonCurrentUser, &currentUser); err != nil {
 				fmt.Printf("[ERROR] Get current user error: %+v", err)
 			}
-			ctx.Set("currentUserId", currentUser.ID)
+			// ctx.JSON(http.StatusUnauthorized, gin.H{"error": currentUser})
+			ctx.Set("currentUserId", currentUser)
 		}
 		ctx.Next()
 	}
