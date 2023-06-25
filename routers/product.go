@@ -9,7 +9,7 @@ import (
 
 func (r *Router) AddProductRouter(apiRouter *gin.RouterGroup) {
 	productRouter := apiRouter.Group("products")
-	productRouter.Use(middlewares.CheckjwtToken) // middleware checking Login
+	productRouter.Use(middlewares.CheckjwtToken()) // middleware checking Login
 	handler := handlers.ProductHandler{Db: r.DB}
 
 	productRouter.GET("", handler.GetList())
