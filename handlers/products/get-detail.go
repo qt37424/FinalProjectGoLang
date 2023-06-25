@@ -27,10 +27,15 @@ type (
 
 func (h *ProductHandler) GetDetail() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
+		currentUser, ok := ctx.Get("currentUserId")
+		if !ok {
+			ctx.JSON(http.StatusUnauthorized, gin.H{"message": "You need to login to get detail"})
+			return
+		}
 		pathParms := getDetailPathParams{}
 
 		if err := ctx.ShouldBindUri(&pathParms); err != nil {
-			ctx.JSON(http.StatusBadRequest, gin.H{"error1": err.Error()})
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
 		product := models.Product{}
@@ -54,7 +59,11 @@ func (h *ProductHandler) GetDetail() gin.HandlerFunc {
 				Username: product.User.Username,
 			},
 		}
-		ctx.JSON(http.StatusOK, gin.H{"data": res})
+		if currentUser == res.User.ID {
+			ctx.JSON(http.StatusOK, gin.H{"data": res})
+		} else {
+			ctx.JSON(http.StatusForbidden, gin.H{"message": "You have no permission!"})
+		}
 
 		// // Cách 1
 		// product := models.Product{}
