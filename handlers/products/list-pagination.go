@@ -12,6 +12,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type ListProductRes struct {
+	ID     uint   `json:"id"`
+	Name   string `json:"name"`
+	Price  uint   `json:"price"`
+	UserId uint   `json:"user_id"`
+}
+
 func (h *ProductHandler) Pagination() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		code := http.StatusOK
@@ -85,32 +92,41 @@ func (h *ProductHandler) GetPagination(pagination *dtos.Pagination, userId uint)
 	// generate where query
 	searchs := pagination.Searchs
 
-	if searchs != nil {
-		for _, value := range searchs {
-			column := value.Column
-			action := value.Action
-			query := value.Query
+	for _, value := range searchs {
+		column := value.Column
+		action := value.Action
+		query := value.Query
 
-			switch action {
-			case "equals":
-				whereQuery := fmt.Sprintf("%s = ?", column)
-				find = find.Where(whereQuery, query)
-				break
-			case "contains":
-				whereQuery := fmt.Sprintf("%s LIKE ?", column)
-				find = find.Where(whereQuery, "%"+query+"%")
-				break
-			case "in":
-				whereQuery := fmt.Sprintf("%s IN (?)", column)
-				queryArray := strings.Split(query, ",")
-				find = find.Where(whereQuery, queryArray)
-				break
-
-			}
+	L: // fix warning
+		switch action {
+		case "equals":
+			whereQuery := fmt.Sprintf("%s = ?", column)
+			find = find.Where(whereQuery, query)
+			break L
+		case "contains":
+			whereQuery := fmt.Sprintf("%s LIKE ?", column)
+			find = find.Where(whereQuery, "%"+query+"%")
+			break L
+		case "in":
+			whereQuery := fmt.Sprintf("%s IN (?)", column)
+			queryArray := strings.Split(query, ",")
+			find = find.Where(whereQuery, queryArray)
+			break L
 		}
 	}
 
 	find = find.Where("user_id = ?", userId).Find(&products)
+
+	// clean data to return
+	datas := []ListProductRes{}
+	for _, product := range products {
+		datas = append(datas, ListProductRes{
+			ID:     product.ID,
+			Name:   product.Name,
+			Price:  product.Price,
+			UserId: product.UserID,
+		})
+	}
 
 	// has error find data
 	errFind := find.Error
@@ -119,7 +135,7 @@ func (h *ProductHandler) GetPagination(pagination *dtos.Pagination, userId uint)
 		return RepositoryResult{Error: errFind}, totalPages
 	}
 
-	pagination.Rows = products
+	pagination.Rows = datas
 
 	// count all data
 	errCount := h.Db.Model(&models.Product{}).Count(&totalRows).Error
