@@ -17,4 +17,5 @@ func (r *Router) AddProductRouter(apiRouter *gin.RouterGroup) {
 	productRouter.POST("", handler.Create())
 	productRouter.PUT("/:id", handler.Update())
 	productRouter.DELETE("/:id", handler.Delete())
+	productRouter.GET("/pagination", handler.Pagination())
 }

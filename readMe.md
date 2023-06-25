@@ -55,3 +55,9 @@ table Profile {
 - Để đảm bảo việc strong type cho việc tạo và truy vấn 1 dữ liệu thì vừa nên có body để gửi đi và vừa nên có Respone để nhận về
 
 - field id của struct khi được khai báo phải map vs tên biến id trên path mà mình đã declare ví dụ ta có path được declare là :projectId thì url trong gorm cũng phải là projectId
+
+
+# Pagination Syntax 
+```
+http://localhost:3000/api/products/pagination?limit=5&page=0
+```

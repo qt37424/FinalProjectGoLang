@@ -16,6 +16,10 @@ type (
 		Name  string `json:"name"`
 		Price uint   `json:"price"`
 	}
+	RepositoryResult struct {
+		Result interface{}
+		Error  error
+	}
 )
 
 func (h *ProductHandler) GetList() gin.HandlerFunc {
