@@ -24,7 +24,7 @@ func connectDb() *gorm.DB {
 	}
 
 	// migrate data into database (that is neccessary to connect database)
-	db.AutoMigrate(&models.User{}, &models.Product{})
+	db.AutoMigrate(&models.User{}, &models.Product{}, &models.Car{})
 
 	return db
 }
