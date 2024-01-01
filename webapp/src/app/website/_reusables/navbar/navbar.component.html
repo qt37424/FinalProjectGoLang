@@ -1,0 +1,187 @@
+<div class="sticky-top" data-aos="fade-down" data-aos-once="true">
+  <nav class="navbar nav navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand ml-5 pt-1" routerLink="home" (click)="onScroll()">
+        <img
+          id="navlogo"
+          src="../../../assets/cars-home-logo1.png"
+          alt="Calgary Animal Rescue Society"
+   
+        />
+      </a>
+
+      <a href="https://www.facebook.com/CalgaryAnimalRescueSociety/"
+        ><i class="fa fa-2x fa-facebook-square ml-2 mr-2 social-icon black"></i
+      ></a>
+      <a href="https://www.instagram.com/calgaryanimalrescue/"
+        ><i class="fa fa-2x fa-instagram ml-2 mr-2 social-icon black"></i
+      ></a>
+
+      <button class="sm-white-outline-btn btn shadow ml-2 black"  (click)="onDonateClick()">
+        <i class="fa fa-heart-o mr-1" aria-hidden="true"></i>Donate
+      </button>
+
+      <button
+        class="navbar-toggler"
+        id="togglebutton"
+        type="button"
+        data-toggle="collapse"
+        data-target="#carsNav"
+      >
+        <span class="navbar-toggler-icon" id="navbarToggler"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="carsNav">
+        <ul class="navbar-nav ml-auto mr-5">
+          <li class="nav-item"
+            data-toggle="collapse"
+            data-target=".navbar-collapse.show"
+          >
+            <a
+              class="nav-link hvr-underline-from-center"
+              routerLink="home"
+              routerLinkActive=""
+              (click)="onScroll()"
+            >
+              About Us
+            </a>
+          </li>
+
+          <li class="nav-item hvr-underline-from-center"
+            data-toggle="collapse"
+            data-target=".navbar-collapse.show"
+          >
+            <a class="nav-link" routerLink="contact-us" routerLinkActive="" (click)="onScroll()">
+              Contact Us
+            </a>
+          </li>
+
+          <li
+            class="dropdown nav-item active"
+            (mouseenter)="changeText2 = true"
+            (mouseleave)="changeText2 = false"
+            data-toggle="collapse"
+            data-target=".navbar-collapse.show"
+          >
+            <a
+              class="nav-link"
+              (click)="onInvolvedTurn()"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <ng-container
+                *ngIf="changeText2 && involvedTurn$; else InvolvedTurnback"
+                ><span class="hand">Get Involved⯇</span></ng-container
+              >
+              <ng-template #InvolvedTurnback><span class="hand">Get Involved⯆</span></ng-template>
+            </a>
+            <div class="dropdown-menu pl-2">
+              <a
+                class="nav-link dropdown-item"
+                routerLink="volunteer"
+                routerLinkActive="active"
+                (click)="onScroll()"
+                >Volunteer
+              </a>
+
+              <a
+                class="nav-link dropdown-item"
+                routerLink="foster"
+                routerLinkActive="active"
+                (click)="onScroll()"
+                >Foster
+              </a>
+
+              <a
+                class="nav-link dropdown-item"
+                routerLink="donatefunds"
+                routerLinkActive="active"
+                (click)="onScroll()"
+                >Donate Funds
+              </a>
+
+              <a
+                class="nav-link dropdown-item"
+                routerLink="donatesupplies"
+                routerLinkActive="active"
+                (click)="onScroll()"
+                >Donate Supplies
+              </a>
+            </div>
+          </li>
+
+          <li
+            class="dropdown nav-item"
+            (mouseenter)="changeText3 = true"
+            (mouseleave)="changeText3 = false"
+            data-toggle="collapse"
+            data-target=".navbar-collapse.show"
+          >
+            <a class="nav-link" (click)="onMoreTurn()" data-toggle="dropdown">
+              <ng-container *ngIf="changeText3 && moreTurn$; else MoreTurnback"
+                ><span class="hand">More⯇</span></ng-container
+              >
+              <ng-template #MoreTurnback><span class="hand">More⯆</span></ng-template>
+            </a>
+
+            <div class="dropdown-menu pl-2">
+              <a
+                class="nav-link dropdown-item"
+                routerLink="events"
+                routerLinkActive="active"
+                (click)="onScroll()"
+                >Upcoming Events
+              </a>
+
+              <a
+                class="nav-link dropdown-item"
+                routerLink="partners"
+                routerLinkActive="active"
+                (click)="onScroll()"
+                >Our Partners
+              </a>
+
+              <a
+                class="nav-link dropdown-item"
+                routerLink="happy-tails"
+                routerLinkActive="active"
+                (click)="onScroll()"
+                >Happy Tails
+              </a>
+
+              <a
+                class="nav-link dropdown-item"
+                routerLink="rainbow-bridge"
+                routerLinkActive="active"
+                (click)="onScroll()"
+                >The Rainbow Bridge page
+              </a>
+
+              <a
+                class="nav-link dropdown-item"
+                routerLink="goptek"
+                routerLinkActive="active"
+                (click)="onScroll()"
+                >Our Developers
+              </a>
+            </div>
+          </li>
+          <li class="nav-item"
+            data-toggle="collapse"
+            data-target=".navbar-collapse.show"
+          >
+            <a
+              class="nav-link hvr-underline-from-center"
+              routerLink="/login"
+              routerLinkActive="active"
+              (click)="onScroll()"
+            >
+              Login
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>

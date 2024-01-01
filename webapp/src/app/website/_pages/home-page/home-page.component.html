@@ -1,0 +1,205 @@
+<div data-aos="fade-up">
+  <!-- Landing Section -->
+  <div class="landing-wrap">
+    <div id="landing-section">
+      <div class="landing-container text-right">
+        <h1 class="display-1 text-white" id="primary-title">
+          WE ARE <span class="text-red">CARS</span>
+        </h1>
+        <h3 class="text-white display-4" id="secondary-title">
+          A <span class="text-red">Foster-Based</span> rescue
+        </h3>
+        <p class="text-white" id="title-desc">
+          As we are a foster based rescue, we do not have a central location. If
+          you wish to meet one of our animals please fill out the adoption
+          application form below and someone will be in touch with you to set up
+          a meet and greet.
+        </p>
+        <button class="lg-red-btn btn shadow mr-3" (click)="onDonateClick()">Donate Now</button>
+      </div>
+
+      <app-carousel class="mainWrapper" id="carousel"></app-carousel>
+      
+    </div>
+  </div>
+
+  <!-- About Us -->
+  <div class="jumbotron" id="about-section">
+    <div class="container">
+      <h2 class="display-1">About Us</h2>
+      <div class="container">
+        <div class="row mt-5">
+          <div class="col-md-6 my-auto text-left">
+            <h3 class="display-4 text-red">Who we are</h3>
+            <p>
+              Calgary Animal Rescue Society is made up of volunteers, some of us
+              volunteer as foster parents, participate in adoption events, work
+              at fundraisers, and are members of our Board of Directors. We all
+              do our best to help animals in need find new fur-ever homes.
+              Rescue is hard work. Often the days are long and the nights are
+              even longer. We are very fortunate to have an amazing volunteer
+              rescue team that work tirelessly and are available at a moments
+              notice to help an animal in need. We are also a foster home based
+              rescue, so our foster homes are critical and an important stepping
+              stone in the rescue process. We can’t say enough good things about
+              our fosters. They are there every time we need them. It’s all
+              about team work!
+            </p>
+          </div>
+          <div class="col-md-6 pl-5 pt-5">
+            <img
+              class="section-image shadow-lg rounded blax"
+              src="../../../../assets/images/DSC_2082-15-1.jpg"
+              alt=""
+            />
+          </div>
+        </div>
+
+        <div class="row mt-5">
+          <div class="col-md-6 pr-5">
+            <img
+              class="section-image shadow-lg rounded blax"
+              src="../.././../../assets/images/IMG_8493-Edit-Edit.jpg"
+              alt=""
+            />
+          </div>
+
+          <div class="col-md-6 my-auto text-right about-item">
+            <h3 class="display-4 text-red">What we do</h3>
+            <p>
+              Our primary goal is to find loving forever homes for cats and dogs
+              in need, working with rescues throughout Alberta and across
+              Canada. We have also formed partnerships with rescues in other
+              countries to bring over dogs that may not otherwise have been able
+              to find permanent homes. In addition to our rescue efforts, we
+              occasionally will visit schools to educate, inform and answer
+              questions to promote the importance of compassion.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Volunteer Section -->
+  <div class="jumbotron text-center" id="volunteer-section">
+    <div class="container">
+      <h2 class="text-white">Become a Volunteer!</h2>
+      <p class="text-white">
+        Volunteering will not change the world, but it can save an animal's life.
+        The people who volunteer with animal rescues are our heroes. A
+        volunteer's heart comes from the love that is seen with an animals eyes,
+        making them rare and priceless… volunteer, feel that love.
+      </p>
+      <button class="lg-red-btn btn shadow mt-3" (click)="onVolunteerClick()" >Volunteer Now</button>
+    </div>
+  </div>
+
+  <!-- Foster Homes Section -->
+  <app-foster-home-section></app-foster-home-section>
+
+  <!-- Featured Animals Section -->
+  <div class="jumbotron" id="animal-section">
+    <div class="container">
+      <h2 class="text-white">Animals</h2>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 mb-4">
+            <div class="card shadow black hvr" (click)="onMoreAnimalsClick()">
+              <img
+                class="card-img-top img-fluid"
+                src="../../../../assets/images/IMG_8635-Edit.jpg"
+                alt="picture of 2 kittens"
+              />
+              <div class="card-body">
+                <h3 class="card-title text-red">Adopt a Cat</h3>
+                <p class="card-text text-right">
+                  See available for adoption cats
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card shadow black hvr" (click)="onMoreAnimalsClick()">
+              <img
+                class="card-img-top img-fluid"
+                src="../../../../assets/images/Copy of 90 August Copy of IMG_6128-min.jpg"
+                alt="picture of a dog"
+              />
+              <div class="card-body">
+                <h3 class="card-title text-red">Adopt a Dog</h3>
+                <p class="card-text text-right">
+                  See available for adoption dogs
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="container mt-4 text-center">
+            <button class="lg-white-outline-btn btn black" (click)="onMoreAnimalsClick()">Our Animals</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Featured Events -->
+
+  <div class="jumbotron" id="events-section">
+    <div class="container">
+      <h2>Featured Events</h2>
+      <div class="container">
+        <div class="row justify-content-center">
+          <ng-container *ngIf="events.length > 0; else noEvents" >
+            <div class="col-md-4 mt-2 mb-4 hvr" *ngFor="let event of webSiteEvents$ | async">
+              <div class="card shadow black">
+                <!-- src="../../../../assets/images/2 JanuaryCopy of DSC_9158-min.jpg" -->
+                <img
+                  class="card-img-top img-fluid"            
+                  alt=""
+                  src="https://source.unsplash.com/collection/136848/300x300?sig={{
+                    event.id
+                  }}"
+                />
+                <div class="card-body">
+                  <h3 class="card-title text-red">{{ event.name }}</h3>
+                  <p class="card-text">
+                    {{ event.description }}
+                  </p>
+                  <p class="card-text">
+                    <strong>Address:</strong> {{ event.address}}
+                  </p>
+                  <p class="card-text">
+                    <strong>Date:</strong> {{ event.date }}
+                  </p>
+                  <p class="card-text">
+                    <strong>Time:</strong> {{ event.startTime + " - " + event.endTime }}
+                  </p>
+                  <p class="card-text">
+                    <strong>Coordinator:</strong> {{ event.coordinator }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <ng-template #noEvents>
+            <div class=container>
+              <div class="row justify-content-center">
+              
+                  <h3 class="text-center">
+                    Unfortunately We do not have any upcoming events at this time
+                  </h3>
+              
+              </div>
+            </div>
+          </ng-template>
+        </div>
+        
+        <div class="text-center mt-4">
+          <button class="lg-red-outline-btn btn black" (click)="onMoreEventsClick()">More Events</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,109 @@
+<a href="" data-toggle="modal" data-target="#exampleModal">Create account?</a>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="header-popup">
+          <i
+            style="font-size: 300%; color: #ce0e2d;"
+            class="fa fa-user"
+            aria-hidden="true"
+          ></i>
+          <h3 class="modal-title" id="exampleModalLabel">
+            <b>Create New Account</b>
+          </h3>
+          <br />
+
+          <h5 id="mvi">
+            <span *ngIf="submitted === false">
+              Please fill all field below to register new account.
+            </span>
+
+            <div
+              *ngIf="submitted === true"
+              class="rounded-pill border-danger text-center alert alert-secondary bg-white"
+            >
+              <strong style="color: #ce0e2d;">{{ message }}</strong>
+            </div>
+          </h5>
+        </div>
+
+        <button
+          type="button"
+          class="close btn btn-outline-none"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span class="mr-1" aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form
+          class="resetForm"
+          (ngSubmit)="onSubmit(form)"
+          #form="ngForm"
+          style="display: grid; grid-row-gap: 20px;"
+        >
+          <input
+            type="text"
+            class="form-control m-auto"
+            style="width: 75%;"
+            placeholder="Email Address"
+            id="registeremail"
+            ngModel
+            name="registeremail"
+            required
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+            email
+            #registeremail="ngModel"
+          />
+          <input
+            type="password"
+            class="form-control m-auto"
+            style="width: 75%;"
+            placeholder="Password"
+            id="password"
+            ngModel
+            name="password"
+            required
+            minlength="6"
+            #password="ngModel"
+          />
+          <div *ngIf="isLoading" class="row justify-content-center">
+            <app-loading-spinner></app-loading-spinner>
+          </div>
+
+          <button
+            *ngIf="!isLoading"
+            id="recoverBtn"
+            type="submit"
+            class="rounded-pill btn btn-outline-none m-auto"
+          >
+            <!-- onclick="$('.modal').modal('hide')" -->
+            Register a New Account
+          </button>
+        </form>
+        <div class="mt-4" style="color: gray; text-align: center;">
+          <p>
+            <a
+              style="text-decoration: none;"
+              data-dismiss="modal"
+              aria-label="Close"
+              href="#"
+              >Return to Login</a
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

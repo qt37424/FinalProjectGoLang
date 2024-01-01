@@ -1,0 +1,42 @@
+/* XL */
+@media (min-width: 1200px){
+  .carousel-item {
+    height: 70vh;
+  }
+}
+
+/* large desktops */
+@media (min-width: 768px) {
+  .carousel-item {
+    height: 70vh;
+  }
+}
+
+
+/* Medium devices (tablets) */
+
+@media (max-width: 768px) {
+  .carousel-item {
+    width: 150vh;
+    object-fit: cover;
+    opacity: 0.6;
+  }
+
+  #slides {
+    background-color: black;
+  }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .carousel-item {
+    width: 150vh;
+    transform: translateX(500px);
+    object-fit: cover;
+    opacity: 0.6;
+  }
+
+  #slides {
+    background-color: black;
+  }
+}

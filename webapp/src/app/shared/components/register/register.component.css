@@ -1,0 +1,36 @@
+#recoverBtn {
+  width: 75%;
+  border: none;
+  color: white;
+  outline: none;
+  background-color: #ce0e2d;
+}
+.close {
+  border: 0px;
+  outline: none;
+}
+
+#recoverBtn:hover {
+  background-color: #28a745;
+}
+
+.header-popup {
+  margin-left: 7%;
+  text-align: center;
+  padding: 11px 0px;
+}
+
+@media only screen and (max-width: 560px) {
+  .header-popup {
+    margin-left: 10%;
+  }
+}
+
+.modal-footer,
+.modal-header {
+  border: none;
+}
+
+.modal-header {
+  padding: 0px;
+}
