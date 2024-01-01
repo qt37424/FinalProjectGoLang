@@ -1,0 +1,52 @@
+.loginSection {
+  padding: 11% 10%;
+  background: #e6dedede;
+  border-radius: 3%;
+}
+
+#loginBtn {
+  width: 100%;
+  border: none;
+  color: white;
+
+  background-color: #ce0e2d;
+}
+
+#loginBtn:hover {
+  /* background-color: #b60321; */
+  background-color: #28a745;
+}
+
+#loginBtn:focus {
+  outline: none;
+  /* background-color: #b60321; */
+  background-color: #ce0e2d;
+}
+
+/* SECTION FOR MEDIA QUERY */
+/* BEGIN  */
+@media screen and (max-width: 767px) {
+  .loginSection {
+    padding: 4% 6%;
+  }
+  .loginSection h3 {
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (min-width: 380px) and (max-width: 767px) {
+  .loginSection {
+    width: 72%;
+    margin: auto;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .loginSection {
+    padding: 8% 7%;
+    background: #e6dedede;
+    border-radius: 3%;
+    width: 113%;
+  }
+}
+/* END  */

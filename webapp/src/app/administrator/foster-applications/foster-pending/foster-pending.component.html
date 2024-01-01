@@ -1,0 +1,548 @@
+<div class="container mb-5" style="min-height: 1080px;">
+  <h1 data-aos="fade-right">New Foster Applications</h1>
+  <!-- Pending and Archived tabs -->
+  <div class="mb-5 mt-3">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link active">Pending Applications</a>
+      </li>
+      <li class="nav-item">
+        <!-- <a class="nav-link" href="#">Archived</a> -->
+        <a
+          class="nav-link"
+          routerLink="/admin/fosterarchive"
+          routerLinkActive="active"
+        >
+          Rejected Applications
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Application List body -->
+  <div class="container">
+    <!-- displays when the page is waiting for a reply from the server -->
+    <ng-container *ngIf="this.isLoading">
+      <div class="row justify-content-center my-5" style="height: 1080px;">
+        <div class="spinner-border text-danger" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </ng-container>
+    <!-- displays when the page has received content and is ready to load -->
+    <ng-container *ngIf="!this.isLoading && this.appList.length === 0">
+      <div
+        class="row justify-content-center noItems my-5"
+        style="height: 1080px;"
+      >
+        <h3>No new applications to display!</h3>
+      </div>
+    </ng-container>
+    <!-- displays when loading is finished but no items exist to display -->
+    <ng-container *ngIf="!this.isLoading && this.appList.length > 0">
+      <div class="card-columns" data-aos="fade-in-out">
+        <!-- Application Card -->
+        <div *ngFor="let application of this.appList">
+          <div class="card">
+            <!-- Buttons and Name (Card Header) -->
+            <!-- Divided into 3 columns: One for Accept button, fullname, and Reject button -->
+            <div class="card-header">
+              <div class="row">
+                <div class="col-sm-12 pl-0 pr-0 justify-content-center">
+                  <h4 class="card-title text-center">
+                    {{ application.fname }} <br />
+                    {{ application.lname }}
+                  </h4>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Body -->
+            <div
+              data-toggle="modal"
+              attr.data-target="#viewApplication{{ application.id }}"
+              (click)="viewFoster(application.id)"
+            >
+              <!-- Picture -->
+              <!-- Separated into 3 columns to center image -->
+              <div class="container">
+                <div class="row">
+                  <div class="col-sm-3"></div>
+                  <div class="col-sm-6">
+                    <img
+                      class="card-img-top img-fluid rounded-circle mt-3"
+                      src="https://source.unsplash.com/collection/895539/300x300?sig={{
+                        application.id
+                      }}"
+                      alt=""
+                    />
+                  </div>
+                  <div class="col-sm-3"></div>
+                </div>
+              </div>
+
+              <!-- Info -->
+              <div class="card-body">
+                <div class="card-text text-center">
+                  <ul class="list-inline">
+                    <li class="list-inline-item">
+                      <p class="font-weight-bold">Email:</p>
+                    </li>
+                    <li class="list-inline-item">
+                      <p>{{ application.email }}</p>
+                    </li>
+                  </ul>
+
+                  <ul class="list-inline">
+                    <li class="list-inline-item">
+                      <p class="font-weight-bold">Cellphone:</p>
+                    </li>
+                    <li class="list-inline-item">
+                      <p>{{ application.cellPhone }}</p>
+                    </li>
+                  </ul>
+
+                  <ul class="list-inline">
+                    <li class="list-inline-item">
+                      <p class="font-weight-bold">Submission Date:</p>
+                    </li>
+                    <li class="list-inline-item">
+                      <p>{{ application.submissionDate }}</p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!-- Accept/Reject -->
+            <div class="container mb-3">
+              <div class="row container ml-0 mr-0 pl-0 pr-0">
+                <div class="col-sm-6 pl-1 pr-1 pb-1">
+                  <button
+                    class="btn btn-outline-success btn-block"
+                    data-toggle="modal"
+                    attr.data-target="#accept{{ application.id }}"
+                  >
+                    Accept
+                  </button>
+
+                  <!-- Accept Modal -->
+                  <div class="modal" id="accept{{ application.id }}">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">
+                            Accept {{ application.fname }}
+                            {{ application.lname }}?
+                          </h5>
+                          <button class="close" data-dismiss="modal">
+                            &times;
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <p>
+                            You are about to accept {{ application.fname }}
+                            {{ application.lname }} as a volunteer.
+                          </p>
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            class="btn btn-success"
+                            data-dismiss="modal"
+                            (click)="acceptApplication(application)"
+                          >
+                            Confirm
+                          </button>
+                          <button
+                            class="btn btn-secondary"
+                            data-dismiss="modal"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End Of Modal -->
+                </div>
+
+                <div class="col-sm-6 pl-1 pr-1 pb-1">
+                  <button
+                    class="btn btn-outline-danger btn-block"
+                    data-toggle="modal"
+                    attr.data-target="#reject{{ application.id }}"
+                  >
+                    Reject
+                  </button>
+                </div>
+
+                <!-- Reject Modal -->
+                <div class="modal" id="reject{{ application.id }}">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">
+                          Reject {{ application.fname }}
+                          {{ application.lname }}?
+                        </h5>
+                        <button class="close" data-dismiss="modal">
+                          &times;
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <p>
+                          You are about to reject {{ application.fname }}
+                          {{ application.lname }}'s foster application.
+                        </p>
+                        <i>Please enter the reason for the rejection:</i>
+                        <textarea
+                          class="form-control"
+                          id="message"
+                          rows="3"
+                          style="
+                            margin-top: 0px;
+                            margin-bottom: 0px;
+                            height: 101px;
+                          "
+                          [(ngModel)]="application.rejectionReason"
+                        ></textarea>
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          class="btn btn-danger"
+                          data-dismiss="modal"
+                          (click)="
+                            rejectApplication(
+                              application.id,
+                              application.rejectionReason
+                            )
+                          "
+                        >
+                          Confirm
+                        </button>
+                        <button class="btn btn-secondary" data-dismiss="modal">
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- End Of Modal -->
+              </div>
+            </div>
+          </div>
+
+          <!-- View Application -->
+          <div
+            class="modal fade"
+            id="viewApplication{{ application.id }}"
+            role="dialog"
+            aria-labelledby="viewApplicationLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <ng-container *ngIf="this.isLoading">
+                  <div class="row justify-content-center">
+                    <div class="spinner-border text-danger" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="!this.isLoading && this.application">
+                  <div class="modal-header">
+                    <h2
+                      class="modal-title"
+                      id="viewFosterModalLabel"
+                      style="color: #fbfbff;"
+                    >
+                      Foster Information
+                    </h2>
+                    <button type="button" class="close">
+                      <span aria-hidden="true" data-dismiss="modal"
+                        >&times;</span
+                      >
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <!-- this is the personal information of foster  -->
+                    <div class="col-12">
+                      <!-- Big Name -->
+                      <h1 class="text-center mt-1">
+                        {{ application.fname
+                        }}<span> {{ application.lname }}</span>
+                      </h1>
+                      <hr style="width: 1px black;" />
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="centerElements">
+                            <h3 class="mb-4">Details</h3>
+                          </div>
+                          <p>
+                            <strong>Status: </strong>
+                            <span
+                              [ngStyle]="{
+                                color: application.active ? 'green' : 'red'
+                              }"
+                            >
+                              <i
+                                class="fa fa-user"
+                                style="font-size: 20px;"
+                              ></i>
+                            </span>
+                          </p>
+                          <p>
+                            <strong>Foster ID: </strong> {{ application.id }}
+                          </p>
+                          <p>
+                            <strong>First name: </strong>
+                            {{ application.fname }}
+                          </p>
+                          <p>
+                            <strong>Last name: </strong>
+                            {{ application.lname }}
+                          </p>
+                          <p>
+                            <strong>Submission Date: </strong>
+                            {{ application.submissionDate }}
+                          </p>
+                        </div>
+
+                        <div class="col-sm-6">
+                          <!-- Contact Information -->
+                          <h3 class="sectionTitle mb-4">Contact Information</h3>
+                          <div style="text-align: left;">
+                            <p>
+                              <strong>Cell phone:</strong>
+                              {{ application.cellPhone }}
+                            </p>
+                            <p>
+                              <strong>Home phone:</strong>
+                              {{ application.homePhone }}
+                            </p>
+                            <p>
+                              <strong>Email:</strong> {{ application.email }}
+                            </p>
+                            <p>
+                              <strong>Address: </strong>
+                              {{ application.address }}, {{ application.city }},
+                              {{ application.province }}
+                            </p>
+                            <p>
+                              <strong>Postal Code: </strong>
+                              {{ application.postalCode }}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Foster background -->
+                      <hr style="width: 1px black;" />
+                      <h5 class="sectionTitle">Foster Background</h5>
+                      <hr style="width: 1px black;" />
+                      <div class="row" style="text-align: left;">
+                        <div class="col-sm-6">
+                          <p>
+                            <strong>Residence: </strong>
+                            {{ application.typeOfResidence }}
+                          </p>
+                          <p>
+                            <strong>Pet Details: </strong>
+                            {{ application.petDetails }}
+                          </p>
+                          <p>
+                            <strong>Spayed and Neutered: </strong>
+                            {{ application.spayedAndNeutered }}
+                          </p>
+                          <p>
+                            <strong>Dog Habit: </strong>
+                            {{ application.dogHabit }}
+                          </p>
+                          <p>
+                            <strong>Cat Habit: </strong>
+                            {{ application.catHabit }}
+                          </p>
+                          <p>
+                            <strong>Family Agreeable: </strong>
+                            {{ application.familyAgreeable | yesNo }}
+                          </p>
+                          <p>
+                            <strong>Foster Animal Type: </strong>
+                            <i>
+                              <ng-container *ngIf="this.ftPuppy">
+                                <br />- Puppy
+                              </ng-container>
+
+                              <ng-container *ngIf="this.ftAdultDog">
+                                <br />- Adult Dog
+                              </ng-container>
+
+                              <ng-container *ngIf="this.ftKitten">
+                                <br />- Kitten
+                              </ng-container>
+
+                              <ng-container *ngIf="this.ftAdultCat">
+                                <br />- Adult Cat
+                              </ng-container>
+
+                              <ng-container *ngIf="this.ftMedicalCare">
+                                <br />- Medical Care
+                              </ng-container>
+
+                              <ng-container *ngIf="this.ftQuarantine">
+                                <br />- Quarantine
+                              </ng-container>
+                            </i>
+                          </p>
+                          <p>
+                            <strong>Preferred Animal: </strong>
+                            {{ application.preferredAnimal }}
+                          </p>
+                          <p>
+                            <strong>Keep Cats Indoor: </strong>
+                            {{ application.keepCatsIndoor | yesNo }}
+                          </p>
+                        </div>
+
+                        <div class="col-sm-6">
+                          <p>
+                            <strong>Fenced Yard: </strong>
+                            {{ application.fencedYard | yesNo }}
+                          </p>
+                          <p>
+                            <strong>Fence Height: </strong>
+                            {{ application.fenceHeight }}
+                          </p>
+                          <p>
+                            <strong>Willing to train: </strong>
+                            {{ application.willingToTrain | yesNo }}
+                          </p>
+                          <p>
+                            <strong>Familiar with crate: </strong>
+                            {{ application.familiarWithCrate | yesNo }}
+                          </p>
+                          <p>
+                            <strong>Use Dog Crate: </strong>
+                            {{ application.useDogCrate | yesNo }}
+                          </p>
+                          <p>
+                            <strong>Past Rescue Experience: </strong>
+                            {{ application.pastRescueExperience }}
+                          </p>
+                          <p>
+                            <strong>Take Animal To Vet: </strong>
+                            {{ application.takeAnimalToVet | yesNo }}
+                          </p>
+                          <p>
+                            <strong>Has Vehicle: </strong>
+                            {{ application.haveVehicle | yesNo }}
+                          </p>
+                          <p>
+                            <strong>Medicate Animal: </strong>
+                            {{ application.medicateAnimal | yesNo }}
+                          </p>
+                          <p>
+                            <strong>Hours left Alone Animal: </strong>
+                            {{ application.hoursLeftAlone }}
+                          </p>
+                        </div>
+                      </div>
+
+                      <!-- Contact Section -->
+                      <div class="row contactSection">
+                        <!-- Ref contact 1  -->
+                        <div class="sm-col-4 ml-2 mr-2">
+                          <hr style="width: 1px black;" />
+                          <h5 class="sectionTitle">Reference Contact 1</h5>
+                          <hr style="width: 1px black;" />
+                          <p>
+                            <strong>First name:</strong>
+                            {{ application.ref1_fname }}
+                          </p>
+                          <p>
+                            <strong>Last name:</strong>
+                            {{ application.ref1_lname }}
+                          </p>
+                          <p>
+                            <strong>Cell Phone:</strong>
+                            {{ application.ref1_cellPhone }}
+                          </p>
+                          <p>
+                            <strong>Email:</strong> {{ application.ref1_email }}
+                          </p>
+                        </div>
+
+                        <!-- Ref contact 2  -->
+                        <div class="sm-col-4 ml-2 mr-2">
+                          <hr style="width: 1px black;" />
+                          <h5 class="sectionTitle">Reference Contact 2</h5>
+                          <hr style="width: 1px black;" />
+                          <p>
+                            <strong>First name:</strong>
+                            {{ application.ref2_fname }}
+                          </p>
+                          <p>
+                            <strong>Last name:</strong>
+                            {{ application.ref2_lname }}
+                          </p>
+                          <p>
+                            <strong>Cell Phone:</strong>
+                            {{ application.ref2_cellPhone }}
+                          </p>
+                          <p>
+                            <strong>Email:</strong> {{ application.ref2_email }}
+                          </p>
+                        </div>
+
+                        <!-- Ref contact 3  -->
+                        <div class="sm-col-4 ml-2 mr-2">
+                          <hr style="width: 1px black;" />
+                          <h5 class="sectionTitle">Reference Contact 3</h5>
+                          <hr style="width: 1px black;" />
+                          <p>
+                            <strong>First name:</strong>
+                            {{ application.ref3_fname }}
+                          </p>
+                          <p>
+                            <strong>Last name:</strong>
+                            {{ application.ref3_lname }}
+                          </p>
+                          <p>
+                            <strong>Cell Phone:</strong>
+                            {{ application.ref3_cellPhone }}
+                          </p>
+                          <p>
+                            <strong>Email:</strong> {{ application.ref3_email }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button
+                      class="btn btn-outline-success ml-1 mr-1"
+                      data-dismiss="modal"
+                      data-toggle="modal"
+                      attr.data-target="#accept{{ application.id }}"
+                    >
+                      Accept
+                    </button>
+
+                    <button
+                      class="btn btn-outline-danger ml-1 mr-1"
+                      data-dismiss="modal"
+                      data-toggle="modal"
+                      attr.data-target="#reject{{ application.id }}"
+                    >
+                      Reject
+                    </button>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+          <!-- End of  Modal-->
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

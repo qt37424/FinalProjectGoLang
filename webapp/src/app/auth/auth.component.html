@@ -1,0 +1,125 @@
+<div class="container" data-aos="fade-in-out">
+  <div class="loginSection">
+    <div class="row">
+      <div class="col-12">
+        <h3 style="color: #ce0e2d; text-align: center;">
+          <b> Sign In </b>
+        </h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <form
+          #authForm="ngForm"
+          (ngSubmit)="onSubmit(authForm)"
+          *ngIf="!isLoading"
+        >
+          <!-- <div class="input-group">
+          <input class="form-control py-2 rounded-pill mr-1 pr-5" type="search" value="search">
+          <span class="input-group-append">
+              <button class="btn rounded-pill border-0 ml-n5" type="button">
+                    <i class="fa fa-search"></i>
+              </button>
+          </span>
+      </div> -->
+
+          <div class="input-group mb-3">
+            <div class="col-12 p-0">
+              <label for="email"><strong>Email address</strong></label>
+            </div>
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1"
+                ><i class="fa fa-envelope" aria-hidden="true"></i
+              ></span>
+            </div>
+            <input
+              type="email"
+              id="email"
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+              ngModel
+              name="email"
+              required
+              email
+              class="form-control"
+              aria-describedby="basic-addon1"
+              #email="ngModel"
+            />
+          </div>
+
+          <div class="input-group mb-3">
+            <div class="col-12 p-0">
+              <label for="email"><strong>Password</strong></label>
+            </div>
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1"
+                ><i class="fa fa-key" aria-hidden="true"></i
+              ></span>
+            </div>
+            <input
+              type="password"
+              id="password"
+              class="form-control"
+              minlength="6"
+              ngModel
+              name="password"
+              required
+              class="form-control"
+              aria-describedby="basic-addon1"
+            />
+          </div>
+          <div
+            *ngIf="errorMessage == true && !email.dirty && !email.touched"
+            class="rounded-pill border-danger text-center alert alert-secondary bg-white"
+            data-aos="fade-in-out"
+          >
+            <strong style="width: 100%; color: #ce0e2d;"
+              >Invalid email and/or password</strong
+            >
+          </div>
+
+          <div
+            *ngIf="!email.valid && email.touched && email.dirty"
+            class="rounded-pill border-danger text-center alert alert-secondary bg-white"
+            data-aos="fade-in-out"
+          >
+            <strong
+              *ngIf="!email.valid && email.touched && email.dirty"
+              style="width: 100%; color: #ce0e2d;"
+              >Please enter a valid email address</strong
+            >
+          </div>
+
+          <div *ngIf="isLoading" class="row justify-content-center">
+            <app-loading-spinner></app-loading-spinner>
+          </div>
+          <button
+            *ngIf="!isLoading"
+            id="loginBtn"
+            class="rounded-pill btn btn-outline-none mr-2 py-2"
+            type="submit"
+          >
+            <!-- (click)="onLoginClick()" -->
+            Login<i class="fa fa-sign-in ml-1" aria-hidden="true"></i>
+          </button>
+          <app-register
+            class="mb-1"
+            style="float: left;"
+          ></app-register>
+          <app-reset-password
+            class="mt-1"
+            style="float: right;"
+          ></app-reset-password>
+
+          <div class="form-row"></div>
+        </form>
+        <!-- <p class="mt-5 ml-3 text-center">incorrect</p> -->
+
+        <div class="container">
+          <div class="row justify-content-center">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
