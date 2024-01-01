@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 type (
@@ -12,9 +13,9 @@ type (
 		Data []getListProductRes `json:"data"`
 	}
 	getListProductRes struct { // I think we should pass the field for token id when sending data
-		ID    uint   `json:"id"`
-		Name  string `json:"name"`
-		Price uint   `json:"price"`
+		ID    uuid.UUID `json:"id"`
+		Name  string    `json:"name"`
+		Price uint      `json:"price"`
 	}
 	RepositoryResult struct {
 		Result interface{}

@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 type (
@@ -14,7 +15,7 @@ type (
 		Password string `json:"password" binding:"required"`
 	}
 	RegisterResponse struct {
-		InsertedId uint `json:"insertId"`
+		InsertedId uuid.UUID `json:"insertId"`
 	}
 )
 

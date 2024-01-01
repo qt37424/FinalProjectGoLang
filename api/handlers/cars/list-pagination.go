@@ -10,13 +10,14 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 type ListProductRes struct {
-	ID     uint   `json:"id"`
-	Name   string `json:"name"`
-	Price  uint   `json:"price"`
-	UserId uint   `json:"user_id"`
+	ID     uuid.UUID `json:"id"`
+	Name   string    `json:"name"`
+	Price  uint      `json:"price"`
+	UserId uint      `json:"user_id"`
 }
 
 func (h *ProductHandler) Pagination() gin.HandlerFunc {

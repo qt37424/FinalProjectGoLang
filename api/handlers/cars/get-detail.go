@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -14,14 +15,14 @@ type (
 		ID uint `uri:"id" binding:"required"`
 	}
 	getDetailRes struct {
-		ID    uint             `json:"id"`
+		ID    uuid.UUID        `json:"id"`
 		Name  string           `json:"name"`
 		Price uint             `json:"price"`
 		User  getDetailUserRes `json:"user"`
 	}
 	getDetailUserRes struct {
-		ID       uint   `json:"id"`
-		Username string `json:"username"`
+		ID       uuid.UUID `json:"id"`
+		Username string    `json:"username"`
 	}
 )
 
