@@ -3,12 +3,13 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { NewPassword } from "../models/new-password.model";
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: "root",
 })
 export class passwordService {
-  private REST_API_SERVER = "http://199.195.116.225:8080/CARS/"; // REST API endpoint
+  private REST_API_SERVER = environment.API_SERVER; // REST API endpoint //? How can I push it in env?
   private CTRL_MAPPING = "reset";
   private UUID_MAPPING = "password";
 

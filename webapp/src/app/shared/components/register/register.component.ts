@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 
 import { passwordService } from "../../services/password.service";
-import { environment } from 'src/environments/environment';
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 
